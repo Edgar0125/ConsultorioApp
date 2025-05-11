@@ -2,6 +2,7 @@ package mx.com.gm.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,13 +14,17 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Cita extends BaseEntity {
+public class Cita  {
 
-    private int idCita;
+    //private int idCita;
+    @Id
+    private Long id;
     private String nombrePaciente;
-    private LocalDateTime horarioPaciente;
+    private LocalDateTime citaHora;
     @ManyToOne
     private Consultorio consultorio;
     @ManyToOne
     private Especialista doctor;
+
+
 }

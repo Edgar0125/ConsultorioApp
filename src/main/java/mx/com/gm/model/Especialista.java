@@ -1,6 +1,9 @@
 package mx.com.gm.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +14,9 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Especialista extends BaseEntity {
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   private String nombre;
   private String apellidoPaterno;
   private String apellidoMaterno;

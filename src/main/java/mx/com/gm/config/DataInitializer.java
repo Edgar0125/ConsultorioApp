@@ -27,6 +27,7 @@ public class DataInitializer implements CommandLineRunner {
 
         // Initialize Doctors
         Especialista doctor1 = new Especialista();
+        doctor1.setId(1L);
         doctor1.setNombre("Juan");
         doctor1.setApellidoPaterno("Ramos");
         doctor1.setApellidoMaterno("Pérez");
@@ -34,6 +35,7 @@ public class DataInitializer implements CommandLineRunner {
         doctorRepository.save(doctor1);
 
         Especialista doctor2 = new Especialista();
+        doctor1.setId(2L);
         doctor2.setNombre("María");
         doctor2.setApellidoPaterno("Gómez");
         doctor2.setApellidoMaterno("López");
@@ -41,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
         doctorRepository.save(doctor2);
 
         Especialista doctor3 = new Especialista();
+        doctor1.setId(3L);
         doctor3.setNombre("Carlos");
         doctor3.setApellidoPaterno("Martínez");
         doctor3.setApellidoMaterno("Sánchez");
@@ -49,16 +52,19 @@ public class DataInitializer implements CommandLineRunner {
 
         // Initialize Consulting Rooms
         Consultorio consultorio1 = new Consultorio();
+        consultorio1.setId(1L);
         consultorio1.setNumero("101");
         consultorio1.setPiso(1);
         consultingRoomRepository.save(consultorio1);
 
         Consultorio consultorio2 = new Consultorio();
+        consultorio2.setId(2L);
         consultorio2.setNumero("102");
         consultorio2.setPiso(1);
         consultingRoomRepository.save(consultorio2);
 
         Consultorio consultorio3 = new Consultorio();
+        consultorio3.setId(3L);
         consultorio3.setNumero("201");
         consultorio3.setPiso(2);
         consultingRoomRepository.save(consultorio2);

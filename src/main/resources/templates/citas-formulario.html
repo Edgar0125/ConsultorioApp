@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointment Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 th:text="${cita.id} ? 'Edit Appointment' : 'New Appointment'"></h2>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <form th:action="${cita.id} ? @{/citas/update/{id}(id=${cita.id})} : @{/cita}" th:object="${cita}" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="consultorio" class="form-label">Consulting Room</label>
+            <select class="form-select" id="consultorio" th:field="*{consultorio}" required>
+                <option value="">Select a room</option>
+                <option th:each="room : ${consultorio}" th:value="${room.id}" th:text="${room.numero + ' (Piso ' + room.piso + ')'}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="doctor" class="form-label">Doctor</label>
+            <select class="form-select" id="doctor" th:field="*{doctor}" required>
+                <option value="">Select a doctor</option>
+                <option th:each="doctor : ${doctor}" th:value="${doctor.id}" th:text="${doctor.nombre + ' ' + doctor.apellidoPaterno}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="citaHora" class="form-label">Appointment Time</label>
+            <input type="datetime-local" class="form-control" id="citaHora" th:field="*{citaHora}" required>
+        </div>
+        <div class="mb-3">
+            <label for="nombrePaciente" class="form-label">Patient Name</label>
+            <input type="text" class="form-control" id="nombrePaciente" th:field="*{nombrePaciente}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/citas" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

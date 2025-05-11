@@ -1,19 +1,25 @@
 package mx.com.gm.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import mx.com.gm.model.Cita;
+import mx.com.gm.repository.CitaRepository;
 import mx.com.gm.repository.ConsultorioRepository;
 import mx.com.gm.repository.EspecialistaRepository;
 import mx.com.gm.service.CitaService;
+import mx.com.gm.service.CitaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +29,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @RequestMapping("/citas")
 public class ControladorInicio {
-
+@GetMapping ("/view")
+    public String view(Model model) {
+    //model.addAttribute("citas", new Cita());
+    model.addAttribute("title","Hola mundo");
+return "view";
+    }
 
     @Autowired
-    private CitaService citaService;
+    private CitaServiceImpl citaService;
     @Autowired
     private EspecialistaRepository doctorRepository;
     @Autowired
@@ -35,24 +46,59 @@ public class ControladorInicio {
     @GetMapping("/new")
     public String showAppointmentForm(Model model) {
         model.addAttribute("cita", new Cita());
-        model.addAttribute("doctores", doctorRepository.findAll());
-        model.addAttribute("consultorios", consultorioRepository.findAll());
-        return "appointment-form";
+        model.addAttribute("doctor", doctorRepository.findAll());
+        model.addAttribute("consultorio", consultorioRepository.findAll());
+        model.addAttribute("message", "Hola mundo");
+        return "citas-formulario";
     }
 
-    @PostMapping
-    public String createAppointment(@ModelAttribute Cita cita, RedirectAttributes redirectAttributes) {
+    @GetMapping("/mostrar")
+    public String mostrarDoctores(Model model) {
+        model.addAttribute("cita", new Cita());
+        model.addAttribute("doctores", doctorRepository.findAll());
+        model.addAttribute("consultorios", consultorioRepository.findAll());
+        model.addAttribute("message", "Hola mundo");
+        System.out.println("model"+model);
+        return "view";
+    }
+
+    @PostMapping("/crear")
+    public String createAppointment(@RequestBody Cita cita,RedirectAttributes redirectAttributes) {///ResponseEntity<?>
         try {
+
+            //citaService.save(cita);
             citaService.validateAndSave(cita);
             redirectAttributes.addFlashAttribute("message", "La cita se creo correctamente!");
-            return "redirect:/citas";
+            //return ResponseEntity.ok(Map.of("message", "Appointment created successfully", "appointment", cita));
+            return "redirect:/citas/listarCitas";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+            //return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
             return "redirect:/citas/new";
         }
     }
 
-    @GetMapping
+   /* @GetMapping("/listarCitas")
+    public List<Cita> listCitas(
+            @RequestParam(required = false) String date,
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) Long roomId
+    ) {
+        if (date != null && !date.isEmpty()) {
+            LocalDate localDate = LocalDate.parse(date);
+            if (doctorId != null) {
+                return citaService.findByDoctorAndDate(doctorId, localDate);
+            } else if (roomId != null) {
+                return citaService.findByConsultingRoomAndDate(roomId, localDate);
+            } else {
+                return citaService.findByDate(localDate);
+            }
+        }
+        return citaService.findByDate(LocalDate.now());
+    }*/
+
+
+    @GetMapping("/listarCitas")
     public String listAppointments(
             @RequestParam(required = false) String date,
             @RequestParam(required = false) Long doctorId,
@@ -73,13 +119,13 @@ public class ControladorInicio {
             appointments = citaService.findByDate(LocalDate.now());
         }
 
-        model.addAttribute("appointments", appointments);
-        model.addAttribute("doctors", doctorRepository.findAll());
-        model.addAttribute("consultingRooms", consultorioRepository.findAll());
-        return "appointment-list";
+        model.addAttribute("cita", appointments);
+        model.addAttribute("doctor", doctorRepository.findAll());
+        model.addAttribute("consultorio", consultorioRepository.findAll());
+        return "listar-citas";
     }
-
-   /* @GetMapping("/edit/{id}")
+/*
+    @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Cita appointment = citaService.citaRepository.findById(id)
@@ -107,7 +153,7 @@ public class ControladorInicio {
             return "redirect:/citas/edit/" + id;
         }
     }
-
+/*
     @PostMapping("/delete/{id}")
     public String deleteAppointment(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -117,5 +163,5 @@ public class ControladorInicio {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/appointments";
-    }
+    }*/
 }

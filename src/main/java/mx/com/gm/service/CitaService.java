@@ -9,17 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CitaService {
-
-    @Autowired
+public interface CitaService extends   CitaRepository{
+    void registrarCita(String cita);
+    void validateAndSave(Cita cita);
+    //void validateAndSave(Cita cita);
+/*    @Autowired
     private CitaRepository citaRepository;
 
     public void validateAndSave(Cita cita) throws IllegalArgumentException {
         // Rule 1: No same consultorio at same time
         List<Cita> roomConflicts = citaRepository.findByConsultingRoomIdAndAppointmentTimeBetween(
                 Long.valueOf(cita.getConsultorio().getId()),
-                cita.getHorarioPaciente(),
-                cita.getHorarioPaciente().plusHours(1)
+                cita.getCitaHora(),
+                cita.getCitaHora().plusHours(1)
         );
         if (!roomConflicts.isEmpty()) {
             throw new IllegalArgumentException("La sala de consulta ya está reservada en este momento.");
@@ -28,8 +30,8 @@ public class CitaService {
         // Rule 2: No same doctor at same time
         List<Cita> doctorConflicts = citaRepository.findByDoctorIdAndAppointmentTimeBetween(
                 cita.getDoctor().getId(),
-                cita.getHorarioPaciente(),
-                cita.getHorarioPaciente().plusHours(1)
+                cita.getCitaHora(),
+                cita.getCitaHora().plusHours(1)
         );
         if (!doctorConflicts.isEmpty()) {
             throw new IllegalArgumentException("El médico ya tiene cita en este momento.");
@@ -38,8 +40,8 @@ public class CitaService {
         // Rule 3: Patient can't have appointments within 2 hours
         List<Cita> patientConflicts = citaRepository.findByPatientNameAndAppointmentTimeBetween(
                 cita.getNombrePaciente(),
-                cita.getHorarioPaciente().minusHours(2),
-                cita.getHorarioPaciente().plusHours(2)
+                cita.getCitaHora().minusHours(2),
+                cita.getCitaHora().plusHours(2)
         );
         if (!patientConflicts.isEmpty()) {
             throw new IllegalArgumentException("El paciente ya tiene cita dentro de 2 horas.");
@@ -48,7 +50,7 @@ public class CitaService {
         // Rule 4: Doctor can't have more than 8 appointments per day
         long dailyAppointments = citaRepository.countByDoctorAndDate(
                 cita.getDoctor().getId(),
-                cita.getHorarioPaciente().toLocalDate()
+                cita.getCitaHora().toLocalDate()
         );
         if (dailyAppointments >= 8) {
             throw new IllegalArgumentException("El paciente ya tiene cita dentro de 2 horas.");
@@ -78,9 +80,9 @@ public class CitaService {
     public void cancelAppointment(Long id) {
         Cita cita = citaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No se encontro la cita"));
-        if (cita.getHorarioPaciente().isBefore(LocalDateTime.now())) {
+        if (cita.getCitaHora().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("No se pueden cancelar citas pasadas");
         }
         citaRepository.deleteById(id);
-    }
+    }*/
 }

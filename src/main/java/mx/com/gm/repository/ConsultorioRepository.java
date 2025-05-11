@@ -13,8 +13,8 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ConsultorioRepository implements JpaRepository<Consultorio, Long> {
-
+public interface ConsultorioRepository extends JpaRepository<Consultorio, Long> {
+/*
     @Override
     public List<Consultorio> findAll() {
         return List.of();
@@ -115,19 +115,19 @@ public class ConsultorioRepository implements JpaRepository<Consultorio, Long> {
 
     }
 
-    /**
+    *//**
      * @param aLong
      * @deprecated
-     */
+     *//*
     @Override
     public Consultorio getOne(Long aLong) {
         return null;
     }
 
-    /**
+    *//**
      * @param aLong
      * @deprecated
-     */
+     *//*
     @Override
     public Consultorio getById(Long aLong) {
         return null;
@@ -171,5 +171,5 @@ public class ConsultorioRepository implements JpaRepository<Consultorio, Long> {
     @Override
     public <S extends Consultorio, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
-    }
+    }*/
 }
