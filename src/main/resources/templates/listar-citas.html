@@ -10,7 +10,7 @@
     <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <form th:action="@{/cita}" method="get" class="mb-4">
+    <form th:action="@{/citas}" method="get" class="mb-4">
         <div class="row">
             <div class="col-md-3">
                 <label for="date" class="form-label">Date</label>
@@ -48,7 +48,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="cita : ${cita}">
+        <tr th:each="cita : ${citas}">
             <td th:text="${cita.nombrePaciente}"></td>
             <td th:text="${cita.doctor.nombre + ' ' + cita.doctor.apellidoPaterno}"></td>
             <td th:text="${cita.consultorio.numero}"></td>

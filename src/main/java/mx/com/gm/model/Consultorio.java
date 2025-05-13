@@ -15,9 +15,9 @@ import lombok.Setter;
 @Entity
 public class Consultorio{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String numero;
     private int piso;

@@ -8,7 +8,11 @@
 <div class="container mt-5">
     <h2 th:text="${cita.id} ? 'Edit Appointment' : 'New Appointment'"></h2>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-    <form th:action="${cita.id} ? @{/citas/update/{id}(id=${cita.id})} : @{/cita}" th:object="${cita}" method="post" class="mt-4">
+    <form th:action="${cita.id != null} ?
+              @{/citas/update/{id}(id=${cita.id})} :
+              @{/citas/cita-prueb}"
+          th:object="${cita}"
+          method="post">
         <div class="mb-3">
             <label for="consultorio" class="form-label">Consulting Room</label>
             <select class="form-select" id="consultorio" th:field="*{consultorio}" required>

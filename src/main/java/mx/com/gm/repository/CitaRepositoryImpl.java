@@ -36,10 +36,16 @@ public class CitaRepositoryImpl implements CitaRepository {
         return List.of();
     }
 
-    @Override
+    /*@Override
     public long countByDoctorAndDate(Long doctorId, LocalDateTime startOfDay, LocalDateTime endOfDay) {
         return 0;
+    }*/
+
+    @Override
+    public long countByDoctorAndDate(Long id, LocalDateTime  startTime, LocalDateTime  endTime) {
+        return 0;
     }
+
 
     @Override
     public void registrarCita(String cita) {
@@ -51,11 +57,6 @@ public class CitaRepositoryImpl implements CitaRepository {
 
     }
 
-
-    @Override
-    public long countByDoctorAndDate(Long doctorId, LocalDate date) {
-        return 0;
-    }
 
     @Override
     public List<Cita> findAll() {

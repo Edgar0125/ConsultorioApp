@@ -14,8 +14,9 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Especialista extends BaseEntity {
-  @Id
+
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
   private Long id;
   private String nombre;
   private String apellidoPaterno;

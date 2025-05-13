@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,18 +53,9 @@ return "view";
         return "citas-formulario";
     }
 
-    @GetMapping("/mostrar")
-    public String mostrarDoctores(Model model) {
-        model.addAttribute("cita", new Cita());
-        model.addAttribute("doctores", doctorRepository.findAll());
-        model.addAttribute("consultorios", consultorioRepository.findAll());
-        model.addAttribute("message", "Hola mundo");
-        System.out.println("model"+model);
-        return "view";
-    }
 
-    @PostMapping("/crear")
-    public String createAppointment(@RequestBody Cita cita,RedirectAttributes redirectAttributes) {///ResponseEntity<?>
+    @PostMapping("/cita-prueb")
+    public String createAppointment(@ModelAttribute("cita") Cita cita,RedirectAttributes redirectAttributes) {///ResponseEntity<?>
         try {
 
             //citaService.save(cita);
@@ -78,7 +70,7 @@ return "view";
         }
     }
 
-   /* @GetMapping("/listarCitas")
+    @GetMapping("/listarCitas1")
     public List<Cita> listCitas(
             @RequestParam(required = false) String date,
             @RequestParam(required = false) Long doctorId,
@@ -95,7 +87,7 @@ return "view";
             }
         }
         return citaService.findByDate(LocalDate.now());
-    }*/
+    }
 
 
     @GetMapping("/listarCitas")
@@ -119,7 +111,7 @@ return "view";
             appointments = citaService.findByDate(LocalDate.now());
         }
 
-        model.addAttribute("cita", appointments);
+        model.addAttribute("citas", appointments);
         model.addAttribute("doctor", doctorRepository.findAll());
         model.addAttribute("consultorio", consultorioRepository.findAll());
         return "listar-citas";
